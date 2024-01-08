@@ -1,0 +1,15 @@
+[package]
+name = "adrus"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.79"
+chrono = { version = "0.4.31", features = ["serde"] }
+clap = { version = "4.4.12", features = ["derive"] }
+inquire = { version = "0.6.2", features = ["date", "editor"] }
+serde = { version = "1.0.194", features = ["derive"] }
+tempfile = "3.9.0"
+toml = "0.8.8"
