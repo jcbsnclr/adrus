@@ -197,7 +197,8 @@ static note_entry_t *get_note_entry(db_t *db, const char *path) {
 
     note_entry_t *cur = db->bnotes[bucket];
     while (cur) {
-        // jb_trace("cur->path = %s, path = %s", cur->path, path);
+        jb_trace("cur->path = %s, path = %s", cur->path, path);
+        jb_trace("cur->hash = %lx, hash = %lx", cur->hash, hash);
         if (cur->hash == hash && strcmp(cur->path, path) == 0) {
             return cur;
         }
@@ -529,7 +530,7 @@ static void rm_glob(db_t *db, void *state, note_entry_t *note) {
 
         if (remove(buf) == -1) {
             err = errno;
-            jb_error("faled to delete note '%s': %s", note->path, strerror(err));
+            jb_error("failed to delete note '%s': %s", note->path, strerror(err));
         }
     } else {
         jb_debug("match failed; glob = '%s', path = '%s'", glob, note->path);

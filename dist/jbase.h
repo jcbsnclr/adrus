@@ -31,6 +31,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 
 #ifdef JBASE_AUDIO
 #include "jack/types.h"
@@ -194,6 +195,8 @@ jb_errno_t jb_io_buf_write(jb_io_buf_t *buf, uint8_t *data, size_t len);
 jb_errno_t jb_io_buf_flush(jb_io_buf_t *buf, FILE *f);
 void jb_io_buf_clear(jb_io_buf_t *buf);
 void jb_io_buf_free(jb_io_buf_t *buf);
+
+jb_errno_t jb_fstat(const char *path, struct stat *buf);
 
 jb_errno_t jb_load_file(const char *path, uint8_t **data, size_t *len);
 jb_errno_t jb_store_file(const char *path, uint8_t *data, size_t len);

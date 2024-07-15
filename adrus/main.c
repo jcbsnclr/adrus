@@ -164,30 +164,36 @@ int main(int argc, char *argv[]) {
                 goto cleanup;
             }
 
-            FILE *f = fopen(path, "w");
+            err = jb_fstat(path, NULL);
 
-            if (!f) {
-                jb_error("failed to open note '%s': %s", cmd.path, strerror(errno));
-                code = 1;
-                goto cleanup;
+            if (err == ENOENT) {
+                FILE *f = fopen(path, "w");
+
+                if (!f) {
+                    jb_error("failed to open note '%s': %s", cmd.path, strerror(errno));
+                    code = 1;
+                    goto cleanup;
+                }
+
+                fseek(f, 0, SEEK_END);
+                int len = ftell(f);
+
+                if (len == -1) {
+                    jb_error("failed to open note '%s': %s", cmd.path, strerror(errno));
+                    code = 1;
+                    goto cleanup;
+                }
+                rewind(f);
+
+                if (len == 0) {
+                    const char *hdr = "adrus\n";
+                    fwrite(hdr, 1, strlen(hdr), f);
+                }
+
+                fclose(f);
+            } else if (err) {
+                jb_error("failed to check file '%s': %s", path, strerror(err));
             }
-
-            fseek(f, 0, SEEK_END);
-            int len = ftell(f);
-
-            if (len == -1) {
-                jb_error("failed to open note '%s': %s", cmd.path, strerror(errno));
-                code = 1;
-                goto cleanup;
-            }
-            rewind(f);
-
-            if (len == 0) {
-                const char *hdr = "adrus\n";
-                fwrite(hdr, 1, strlen(hdr), f);
-            }
-
-            fclose(f);
 
             jb_info("spawning editor");
             pid_t pid = fork();

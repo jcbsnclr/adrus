@@ -1,8 +1,7 @@
 /*
  * jbase - C utility library
  * Copyright (C) 2024  Jacob Sinclair <jcbsnclr@outlook.com>
- *
- * This program is free software: you can redistribute it and/or modify
+ * * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -191,5 +190,13 @@ jb_errno_t jb_path_cat(const char *p1, const char *p2, char *out) {
 
 jb_errno_t jb_path_res(const char *path, char *out) {
     if (!realpath(path, out)) return errno;
+    return 0;
+}
+
+jb_errno_t jb_fstat(const char *path, struct stat *buf) {
+    struct stat temp;
+    struct stat *sbuf = buf ? buf : &temp;
+
+    if (stat(path, sbuf) == -1) return errno;
     return 0;
 }
