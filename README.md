@@ -4,7 +4,7 @@
 `adrus` is a simple and light notebook program, with a succinct command-line interface.
 
 ## Design
-*see:* [/doc/design.pdf]
+*see:* [doc/design.pdf](/doc/design.pdf)
 
 ## License 
-*see:* [/LICENSE]
+*see:* [LICENSE](/doc/design.pdf)
